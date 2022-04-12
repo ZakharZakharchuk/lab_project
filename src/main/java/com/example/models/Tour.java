@@ -1,6 +1,9 @@
 package com.example.models;
 
+import org.springframework.data.annotation.Id;
+
 public class Tour {
+    @Id
     private int id;
     private String name;
     private int pricePerPerson;
