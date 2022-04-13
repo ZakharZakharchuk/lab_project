@@ -1,12 +1,17 @@
 package com.example.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table("purchases")
 public class Purchase {
     @Id
     private int id;
     private String name;
+    @Column("tours_id")
     private int tourId;
+    @Column("users_id")
     private int userId;
 
     public Purchase(int id, String name, int tourId, int userId) {

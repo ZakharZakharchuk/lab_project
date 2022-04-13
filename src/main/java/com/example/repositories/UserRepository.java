@@ -1,15 +1,11 @@
 package com.example.repositories;
 
 import com.example.models.User;
-
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.Repository;
 
 import java.util.List;
 
-
-@Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends Repository<User, Integer> {
     List<User> findAll();
-
+    void save(User user);
 }
