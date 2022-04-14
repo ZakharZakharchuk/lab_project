@@ -1,11 +1,15 @@
 package com.example.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
-@Table("users")
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity(name = "users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     private String email;
@@ -69,7 +73,7 @@ public class User {
     }
 
     @Override
-    public String  toString() {
+    public String toString() {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +

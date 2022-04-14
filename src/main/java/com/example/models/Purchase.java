@@ -1,17 +1,17 @@
 package com.example.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
-@Table("purchases")
+import javax.persistence.*;
+
+@Entity(name = "purchases")
 public class Purchase {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    @Column("tours_id")
+    @Column(name = "tours_id")
     private int tourId;
-    @Column("users_id")
+    @Column(name = "users_id")
     private int userId;
 
     public Purchase(int id, String name, int tourId, int userId) {
