@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>All tours</title>
+    <title>All users</title>
 </head>
 <body>
 <table>
@@ -10,15 +10,18 @@
     <tr>
         <th>Id</th>
         <th>Name</th>
+        <th>Email</th>
     </tr>
     </thead>
 
     <tbody>
-    <tr th:each="tour : ${tours}">
-        <td th:text="${tour.id}"></td>
-        <td th:text="${tour.name}"></td>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.email}"></td>
     </tr>
     </tbody>
 </table>
+<a href="/users/new">New user</a>
 </body>
 </html>

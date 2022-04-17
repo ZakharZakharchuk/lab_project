@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Entity(name = "purchases")
 public class Purchase {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     @Column(name = "tours_id")
@@ -25,6 +25,10 @@ public class Purchase {
         this.name = name;
         this.tourId = tourId;
         this.userId = userId;
+    }
+
+    public Purchase(String name) {
+        this.name = name;
     }
 
     public Purchase() {
