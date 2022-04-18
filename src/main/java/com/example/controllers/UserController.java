@@ -2,6 +2,7 @@ package com.example.controllers;
 
 import com.example.models.User;
 import com.example.repositories.UserRepository;
+import com.example.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,17 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/users")
 public class UserController {
+    private final UserService userService;
 
-    private final UserRepository userRepository;
-
-    @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @RequestMapping()
     public String showAllUsers(Model model) {
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", userService.findAll());
         return "user/show";
     }
 
@@ -35,7 +34,7 @@ public class UserController {
 
     @PostMapping()
     public String savaUser(User user) {
-        userRepository.save(user);
+        userService.save(user);
         return "redirect:/users";
     }
 }

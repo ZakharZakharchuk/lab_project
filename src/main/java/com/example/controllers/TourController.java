@@ -2,6 +2,8 @@ package com.example.controllers;
 
 import com.example.models.Tour;
 import com.example.repositories.TourRepository;
+import com.example.services.tour.TourService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/tours")
 public class TourController {
-    private final TourRepository tourRepository;
+    private final TourService tourService;
 
-    public TourController(TourRepository tourRepository) {
-        this.tourRepository = tourRepository;
+    public TourController(TourService tourService) {
+        this.tourService = tourService;
     }
 
     @GetMapping()
     public String showAllTours(Model model) {
-        model.addAttribute("tours", tourRepository.findAll());
+        model.addAttribute("tours", tourService.findAll());
         return "tour/show";
     }
 
@@ -31,7 +33,7 @@ public class TourController {
 
     @PostMapping()
     public String saveTour(Tour tour) {
-        tourRepository.save(tour);
+        tourService.save(tour);
         return "redirect:/tours";
     }
 }
