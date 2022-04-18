@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import com.example.dto.user.UserDTO;
 import com.example.models.User;
 import com.example.repositories.UserRepository;
 import com.example.services.user.UserService;
@@ -28,13 +29,13 @@ public class UserController {
 
     @GetMapping("/new")
     public String newUser(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserDTO());
         return "user/new";
     }
 
     @PostMapping()
-    public String savaUser(User user) {
-        userService.save(user);
+    public String savaUser(UserDTO userDTO) {
+        userService.save(userDTO);
         return "redirect:/users";
     }
 }

@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import com.example.dto.tour.TourDTO;
 import com.example.models.Tour;
 import com.example.repositories.TourRepository;
 import com.example.services.tour.TourService;
@@ -27,13 +28,13 @@ public class TourController {
 
     @GetMapping("/new")
     public String newTour(Model model) {
-        model.addAttribute("tour", new Tour());
+        model.addAttribute("tour", new TourDTO());
         return "tour/new";
     }
 
     @PostMapping()
-    public String saveTour(Tour tour) {
-        tourService.save(tour);
+    public String saveTour(TourDTO tourDTO) {
+        tourService.save(tourDTO);
         return "redirect:/tours";
     }
 }

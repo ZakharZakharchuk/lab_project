@@ -1,5 +1,6 @@
 package com.example.services.tour;
 
+import com.example.dto.tour.TourDTO;
 import com.example.models.Tour;
 import com.example.repositories.TourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public void save(Tour tour) {
+    public void save(TourDTO tourDTO) {
+        Tour tour = new Tour(tourDTO.getName(), tourDTO.getPricePerPerson());
         tourRepository.save(tour);
     }
 }
