@@ -18,7 +18,8 @@
         <td th:text="${tour.id}"></td>
         <td th:text="${tour.name}"></td>
         <td th:text="${tour.pricePerPerson}"></td>
-        <td> <a href="">Buy</a></td>
+        <td> <a th:href="@{'/purchases/buy/' + ${tour.id}}">Buy</a>
+        </td>
     </tr>
     </tbody>
 </table>

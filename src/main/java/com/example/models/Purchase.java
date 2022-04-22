@@ -27,6 +27,11 @@ public class Purchase {
         this.userId = userId;
     }
 
+    public Purchase(int tourId, int userId) {
+        this.tourId = tourId;
+        this.userId = userId;
+    }
+
     public Purchase(String name) {
         this.name = name;
     }
