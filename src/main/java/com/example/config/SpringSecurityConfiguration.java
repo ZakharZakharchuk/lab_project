@@ -1,6 +1,7 @@
 package com.example.config;
 
 import com.example.models.Role;
+import com.example.services.user.UserFindService;
 import com.example.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
-import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.persistence.Basic;
 
@@ -24,11 +24,11 @@ import javax.persistence.Basic;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private UserService userService;
+    private UserFindService userFindService;
 
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setUserFindService(UserFindService userFindService) {
+        this.userFindService = userFindService;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Basic
     private AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService);
+        auth.setUserDetailsService(userFindService);
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
@@ -53,10 +53,20 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/users").hasAuthority(Role.ADMIN.name())
-                .antMatchers("/purchases").hasAuthority(Role.USER.name())
+                .antMatchers("/bucket").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name(), Role.MANAGER.name())
+                .antMatchers("/tours/new").hasAuthority(Role.ADMIN.name())
                 .anyRequest().permitAll()
-                .and().
-                formLogin();
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/auth")
+                .usernameParameter("name")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/")
+                .permitAll()
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/");
     }
 
 }

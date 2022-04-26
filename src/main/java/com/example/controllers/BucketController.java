@@ -1,6 +1,5 @@
 package com.example.controllers;
 
-import com.example.dto.bucket.BucketDTO;
 import com.example.models.Bucket;
 import com.example.services.bucket.BucketService;
 import org.springframework.stereotype.Controller;
@@ -21,6 +20,6 @@ public class BucketController {
     public String showBucket(Model model, Principal principal) {
         Bucket bucket = bucketService.getBucketByUser(principal.getName());
         model.addAttribute("bucket", bucket);
-        return "bucket";
+        return "bucket/bucket";
     }
 }

@@ -2,7 +2,6 @@ package com.example.services.bucket;
 
 import com.example.models.Bucket;
 import com.example.models.User;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

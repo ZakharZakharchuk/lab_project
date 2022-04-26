@@ -4,8 +4,6 @@ import com.example.dto.user.UserDTO;
 import com.example.models.Role;
 import com.example.models.User;
 import com.example.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,16 +49,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByName(String username) {
         return userRepository.findFirstByName(username);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findFirstByName(username);
-        if(user ==null)
-            throw new UsernameNotFoundException("User not found");
-        List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(user.getRole().name()));
-        return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), roles);
     }
 
     public UserDTO mapDTO(User user){

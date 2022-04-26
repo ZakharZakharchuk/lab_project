@@ -1,10 +1,7 @@
 package com.example.controllers;
 
 import com.example.dto.tour.TourDTO;
-import com.example.models.Tour;
-import com.example.repositories.TourRepository;
 import com.example.services.tour.TourService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/tours")
+@RequestMapping()
 public class TourController {
     private final TourService tourService;
 
@@ -26,24 +23,24 @@ public class TourController {
         return "tour/show";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/tours/new")
     public String newTour(Model model) {
         model.addAttribute("tour", new TourDTO());
         return "tour/new";
     }
 
-    @PostMapping()
+    @PostMapping("/tours/new")
     public String saveTour(TourDTO tourDTO) {
         tourService.save(tourDTO);
-        return "redirect:/tours";
+        return "redirect:/";
     }
 
-    @GetMapping("/{id}/bucket")
+    @GetMapping("/tours/{id}/bucket")
     public String addToBucket(@PathVariable int id, Principal principal) {
-        /*if (principal == null) {
-            return "redirect:/tours";
-        }*/
+        if (principal == null) {
+            return "redirect:/login";
+        }
         tourService.addToUserBucket(id, principal.getName());
-        return "redirect:/tours";
+        return "redirect:/";
     }
 }

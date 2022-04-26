@@ -5,12 +5,15 @@
     <title>Login</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/auth}">
+<form th:action="@{/auth}" th:method="post" >
+    Name:
     <input type="text" name="name"/>
     <br/>
-    <input type="text" name="password"/>
+    Password:
+    <input type="password" name="password"/>
     <br/>
     <input type="submit" value="Log in!"/>
 </form>
+<a th:href="@{/users/new}">Register</a>
 </body>
 </html>

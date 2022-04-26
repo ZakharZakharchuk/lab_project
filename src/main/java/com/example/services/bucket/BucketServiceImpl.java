@@ -1,7 +1,5 @@
 package com.example.services.bucket;
 
-import com.example.dto.bucket.BucketDTO;
-import com.example.dto.bucket.TourDetailsDTO;
 import com.example.models.Bucket;
 import com.example.models.Tour;
 import com.example.models.User;

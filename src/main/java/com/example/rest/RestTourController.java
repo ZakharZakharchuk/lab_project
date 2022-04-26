@@ -1,9 +1,7 @@
-/*
 package com.example.rest;
 
 import com.example.models.Tour;
 import com.example.services.tour.TourService;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,4 +22,3 @@ public class RestTourController {
         return tourService.findAll();
     }
 }
-*/
