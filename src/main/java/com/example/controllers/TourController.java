@@ -7,9 +7,9 @@ import com.example.services.tour.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/tours")
@@ -35,6 +35,15 @@ public class TourController {
     @PostMapping()
     public String saveTour(TourDTO tourDTO) {
         tourService.save(tourDTO);
+        return "redirect:/tours";
+    }
+
+    @GetMapping("/{id}/bucket")
+    public String addToBucket(@PathVariable int id, Principal principal) {
+        /*if (principal == null) {
+            return "redirect:/tours";
+        }*/
+        tourService.addToUserBucket(id, principal.getName());
         return "redirect:/tours";
     }
 }

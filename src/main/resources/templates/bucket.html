@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All tours</title>
+    <title>Bucket</title>
 </head>
 <body>
 <table>
     <thead>
     <tr>
-        <th>Id</th>
         <th>Name</th>
         <th>PricePerPerson</th>
         <th></th>
@@ -16,13 +15,11 @@
     </thead>
 
     <tbody>
-    <tr th:each="tour : ${tours}">
+    <tr th:each="tour : ${bucket.getTour()}">
         <td th:text="${tour.name}"></td>
         <td th:text="${tour.pricePerPerson}"></td>
-        <td><a th:href="@{tours/{id}/bucket(id=${tour.id})}">Add to bucket</a> </td>
     </tr>
     </tbody>
 </table>
-<a href="/tours/new">New tour</a>
 </body>
 </html>

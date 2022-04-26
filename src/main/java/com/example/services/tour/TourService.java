@@ -7,5 +7,8 @@ import java.util.List;
 
 public interface TourService {
     List<Tour> findAll();
+
     void save(TourDTO tourDTO);
+
+    void addToUserBucket(Integer tourId, String username);
 }

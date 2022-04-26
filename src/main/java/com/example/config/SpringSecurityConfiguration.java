@@ -1,5 +1,6 @@
 package com.example.config;
 
+import com.example.models.Role;
 import com.example.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.persistence.Basic;
 
@@ -49,9 +52,11 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/purchases").hasAuthority("USER")
-                .antMatchers("/").permitAll()
-                .and().formLogin();
+                .antMatchers("/users").hasAuthority(Role.ADMIN.name())
+                .antMatchers("/purchases").hasAuthority(Role.USER.name())
+                .anyRequest().permitAll()
+                .and().
+                formLogin();
     }
 
 }

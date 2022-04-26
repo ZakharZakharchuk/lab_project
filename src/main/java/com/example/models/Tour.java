@@ -1,13 +1,9 @@
 package com.example.models;
 
-import javax.persistence.Id;
+import javax.persistence.*;
 
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-
-@Entity(name = "tours")
+@Entity
+@Table(name = "tours")
 public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

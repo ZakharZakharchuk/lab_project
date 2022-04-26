@@ -1,3 +1,4 @@
+/*
 package com.example.rest;
 
 import com.example.models.Tour;
@@ -23,3 +24,4 @@ public class RestTourController {
         return tourService.findAll();
     }
 }
+*/

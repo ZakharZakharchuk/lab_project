@@ -1,39 +1,36 @@
 package com.example.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String email;
-    private String role;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Bucket bucket;
 
-
-
-    public User(int id, String name, String email) {
+    public User(int id, String name, String email, String password, Role role, Bucket bucket) {
         this.id = id;
         this.name = name;
         this.email = email;
-    }
-
-    public User(String name, String email) {
-        this.name = name;
-        this.email = email;
-    }
-
-    public User(String name, String email, String role, String password) {
-        this.name = name;
-        this.email = email;
-        this.role = role;
         this.password = password;
+        this.role = role;
+        this.bucket = bucket;
+    }
+
+    public User(String name, String email, String password, Role role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public User() {
@@ -63,14 +60,6 @@ public class User {
         this.email = email;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -79,32 +68,19 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (id != user.id) return false;
-        if (!name.equals(user.name)) return false;
-        return email.equals(user.email);
+    public Role getRole() {
+        return role;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + name.hashCode();
-        result = 31 * result + email.hashCode();
-        return result;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+    public Bucket getBucket() {
+        return bucket;
+    }
+
+    public void setBucket(Bucket bucket) {
+        this.bucket = bucket;
     }
 }

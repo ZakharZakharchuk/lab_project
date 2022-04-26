@@ -1,22 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<p>
-    <a href="/tours">List of file tours</a>
-</p>
-
-<p>
-    <a href="/users">List of all users</a>
-</p>
-<p>
-    <a href="/purchases">List of all purchases</a>
-</p>
-<p>
-    <a href="/login">Log in</a>
-</p>
+<div th:insert="~{fragments/menu::#nav-menu}"></div>
 </body>
 </html>

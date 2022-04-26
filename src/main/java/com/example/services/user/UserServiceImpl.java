@@ -1,6 +1,7 @@
 package com.example.services.user;
 
 import com.example.dto.user.UserDTO;
+import com.example.models.Role;
 import com.example.models.User;
 import com.example.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDTO> findAll() {
+        return userRepository.findAll().stream().map(this::mapDTO).toList();
     }
 
     @Override
@@ -36,10 +37,20 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Password is not equals");
         String name = userDTO.getName();
         String email = userDTO.getEmail();
-        String role = "USER";
+        Role role = Role.USER;
         String password = passwordEncoder.encode(userDTO.getPassword());
-        User user = new User(name, email, role, password);
+        User user = new User(name, email, password, role);
         userRepository.save(user);
+    }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public User findByName(String username) {
+        return userRepository.findFirstByName(username);
     }
 
     @Override
@@ -48,9 +59,16 @@ public class UserServiceImpl implements UserService {
         if(user ==null)
             throw new UsernameNotFoundException("User not found");
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(user.getRole()));
-
-
+        roles.add(new SimpleGrantedAuthority(user.getRole().name()));
         return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), roles);
+    }
+
+    public UserDTO mapDTO(User user){
+        UserDTO userDTO = new UserDTO();
+        String name = user.getName();
+        String email = user.getEmail();
+        userDTO.setEmail(email);
+        userDTO.setName(name);
+        return userDTO;
     }
 }
