@@ -2,14 +2,14 @@ package com.example.dto.bucket;
 
 import com.example.models.Tour;
 
-public class TourDetailsDTO {
+public class BucketDetailsDTO {
     private String name;
     private int tourId;
     private int price;
     private int amount;
     private int sum;
 
-    public TourDetailsDTO(Tour tour) {
+    public BucketDetailsDTO(Tour tour) {
         this.name = tour.getName();
         this.tourId = tour.getId();
         this.price = tour.getPricePerPerson();
@@ -17,7 +17,7 @@ public class TourDetailsDTO {
         this.sum = amount * this.price;
     }
 
-    public TourDetailsDTO(String name, int tourId, int price, int amount, int sum) {
+    public BucketDetailsDTO(String name, int tourId, int price, int amount, int sum) {
         this.name = name;
         this.tourId = tourId;
         this.price = price;
@@ -25,7 +25,7 @@ public class TourDetailsDTO {
         this.sum = sum;
     }
 
-    public TourDetailsDTO() {
+    public BucketDetailsDTO() {
     }
 
     public String getName() {

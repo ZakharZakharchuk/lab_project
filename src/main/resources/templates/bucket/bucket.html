@@ -10,17 +10,22 @@
     <thead>
     <tr>
         <th>Name</th>
-        <th>PricePerPerson</th>
+        <th>Price</th>
+        <th>Amount</th>
+        <th>Sum</th>
         <th></th>
     </tr>
     </thead>
 
     <tbody>
-    <tr th:each="tour : ${bucket.getTour()}">
-        <td th:text="${tour.name}"></td>
-        <td th:text="${tour.pricePerPerson}"></td>
+    <tr th:each="detail : ${bucket.getDetails()}">
+        <td th:text="${detail.name}"></td>
+        <td th:text="${detail.price}"></td>
+        <td th:text="${detail.amount}"></td>
+        <td th:text="${detail.sum}"></td>
     </tr>
     </tbody>
+    <h1>All sum <b th:text="${bucket.sum}"></b></h1>
 </table>
 </body>
 </html>

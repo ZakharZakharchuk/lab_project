@@ -14,7 +14,7 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Bucket bucket;
 
     public User(int id, String name, String email, String password, Role role, Bucket bucket) {

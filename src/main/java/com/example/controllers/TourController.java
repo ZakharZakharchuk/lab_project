@@ -35,11 +35,13 @@ public class TourController {
         return "redirect:/";
     }
 
+
     @GetMapping("/tours/{id}/bucket")
     public String addToBucket(@PathVariable int id, Principal principal) {
         if (principal == null) {
             return "redirect:/login";
         }
+        // TO DO не можна ідентифікувати по name
         tourService.addToUserBucket(id, principal.getName());
         return "redirect:/";
     }

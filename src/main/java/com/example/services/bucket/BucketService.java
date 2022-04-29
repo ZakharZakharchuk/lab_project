@@ -1,5 +1,6 @@
 package com.example.services.bucket;
 
+import com.example.dto.bucket.BucketDTO;
 import com.example.models.Bucket;
 import com.example.models.User;
 
@@ -10,5 +11,7 @@ public interface BucketService {
 
     void addTour(Bucket bucket, List<Integer> tourIds);
 
-    Bucket getBucketByUser(String name);
+    BucketDTO getBucketByUser(String name);
+
+    void addBucketToOrder(String username);
 }

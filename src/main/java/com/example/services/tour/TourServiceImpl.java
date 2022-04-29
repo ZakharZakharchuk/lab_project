@@ -37,25 +37,25 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    @Transactional
+    /*    @Transactional*/
     public void addToUserBucket(Integer tourId, String username) {
         User user = userService.findByName(username);
-        if(user == null){
-            throw new RuntimeException("User not found"+ username);
+        if (user == null) {
+            throw new RuntimeException("User not found" + username);
         }
         Bucket bucket = user.getBucket();
-        if(bucket==null){
-            Bucket newBucket = bucketService.createBucket(user, Collections.singletonList(tourId));
+        if (bucket == null) {
+            Bucket newBucket = bucketService.createBucket(user, List.of(tourId));
+            bucketService.addTour(newBucket, List.of(tourId));
             user.setBucket(newBucket);
             userService.save(user);
-        }
-        else{
-            bucketService.addTour(bucket, Collections.singletonList(tourId));
+        } else {
+            bucketService.addTour(bucket, List.of(tourId));
         }
     }
 
 
-    public TourDTO mapTour(Tour tour){
+    public TourDTO mapTour(Tour tour) {
         TourDTO tourDTO = new TourDTO();
         String name = tour.getName();
         int pricePerPerson = tour.getPricePerPerson();
