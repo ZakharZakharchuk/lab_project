@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Created-By: IntelliJ IDEA
-Built-By: zahar
-Build-Jdk: Oracle OpenJDK version 17.0.2
-Implementation-Title: lab_project Maven Webapp
-Implementation-Version: 1.0-SNAPSHOT
-Implementation-Vendor-Id: org.example
-Main-Class: ${start-class}
-
