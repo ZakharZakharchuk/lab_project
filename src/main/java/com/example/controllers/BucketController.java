@@ -1,21 +1,25 @@
 package com.example.controllers;
 
 import com.example.dto.bucket.BucketDTO;
-import com.example.models.Bucket;
+import com.example.models.Order;
 import com.example.services.bucket.BucketService;
+import com.example.services.order.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class BucketController {
     private final BucketService bucketService;
+    private final OrderService orderService;
 
-    public BucketController(BucketService bucketService) {
+    public BucketController(BucketService bucketService, OrderService orderService) {
         this.bucketService = bucketService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/bucket")
@@ -24,9 +28,12 @@ public class BucketController {
         model.addAttribute("bucket", bucket);
         return "bucket/bucket";
     }
-    /*@PostMapping("/bucket")
-    public String AddBucketToOrder(Principal principal){
-        bucketService.addBucketToOrder(Principal.getName());
-        return "redirect:/bucket";
-    }*/
+
+    @PostMapping("/order")
+    public String AddBucketToOrder(Model model, Principal principal) {
+        Order order = bucketService.addBucketToOrder(principal.getName());
+        model.addAttribute("order", order);
+        return "order/orders";
+    }
+
 }

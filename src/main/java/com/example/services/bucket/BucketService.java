@@ -2,6 +2,7 @@ package com.example.services.bucket;
 
 import com.example.dto.bucket.BucketDTO;
 import com.example.models.Bucket;
+import com.example.models.Order;
 import com.example.models.User;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface BucketService {
 
     BucketDTO getBucketByUser(String name);
 
-    void addBucketToOrder(String username);
+    Order addBucketToOrder(String username);
 }

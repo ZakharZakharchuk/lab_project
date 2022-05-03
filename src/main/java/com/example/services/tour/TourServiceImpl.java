@@ -8,10 +8,9 @@ import com.example.repositories.TourRepository;
 import com.example.services.bucket.BucketService;
 import com.example.services.user.UserService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TourServiceImpl implements TourService {
@@ -44,7 +43,9 @@ public class TourServiceImpl implements TourService {
             throw new RuntimeException("User not found" + username);
         }
         Bucket bucket = user.getBucket();
+        System.out.println("Bucket " + bucket);
         if (bucket == null) {
+            //TODO прибрати List
             Bucket newBucket = bucketService.createBucket(user, List.of(tourId));
             bucketService.addTour(newBucket, List.of(tourId));
             user.setBucket(newBucket);
@@ -52,6 +53,11 @@ public class TourServiceImpl implements TourService {
         } else {
             bucketService.addTour(bucket, List.of(tourId));
         }
+    }
+
+    @Override
+    public void deleteTour(int id) {
+        tourRepository.deleteById(id);
     }
 
 

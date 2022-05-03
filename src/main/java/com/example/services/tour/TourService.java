@@ -11,4 +11,6 @@ public interface TourService {
     void save(TourDTO tourDTO);
 
     void addToUserBucket(Integer tourId, String username);
+
+    void deleteTour(int id);
 }

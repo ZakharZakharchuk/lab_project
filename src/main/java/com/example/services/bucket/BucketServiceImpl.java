@@ -2,11 +2,10 @@ package com.example.services.bucket;
 
 import com.example.dto.bucket.BucketDTO;
 import com.example.dto.bucket.BucketDetailsDTO;
-import com.example.models.Bucket;
-import com.example.models.Tour;
-import com.example.models.User;
+import com.example.models.*;
 import com.example.repositories.BucketRepository;
 import com.example.repositories.TourRepository;
+import com.example.services.order.OrderService;
 import com.example.services.user.UserService;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +13,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class BucketServiceImpl implements BucketService {
     private final BucketRepository bucketRepository;
     private final TourRepository tourRepository;
     private final UserService userService;
+    private final OrderService orderService;
 
-    public BucketServiceImpl(BucketRepository bucketRepository, TourRepository tourRepository, UserService userService) {
+    public BucketServiceImpl(BucketRepository bucketRepository, TourRepository tourRepository, UserService userService, OrderService orderService) {
         this.bucketRepository = bucketRepository;
         this.tourRepository = tourRepository;
         this.userService = userService;
+        this.orderService = orderService;
     }
 
     @Override
@@ -75,7 +77,22 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public void addBucketToOrder(String username) {
+    public Order addBucketToOrder(String username) {
+        User user = userService.findByName(username);
+        Bucket bucket = user.getBucket();
+        Order order = new Order();
+        order.setUser(user);
 
+        Map<Tour, Long> tourWithAmount = bucket.getTour().stream()
+                .collect(Collectors.groupingBy(x -> x, Collectors.counting()));
+        List<OrderDetails> orderDetails = tourWithAmount.entrySet().stream()
+                .map(x -> new OrderDetails(order, x.getKey(), x.getValue().intValue())).toList();
+        int sum = orderDetails.stream().mapToInt(x -> x.getTour().getPricePerPerson() * x.getAmount()).sum();
+        order.setOrderDetails(orderDetails);
+        order.setSum(sum);
+        orderService.save(order);
+        bucket.getTour().clear();
+        bucketRepository.save(bucket);
+        return order;
     }
 }

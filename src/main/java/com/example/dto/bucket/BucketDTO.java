@@ -11,7 +11,7 @@ public class BucketDTO {
     public void aggregate() {
         this.amount = details.size();
         this.sum = details.stream()
-                .map(x -> x.getSum())
+                .map(BucketDetailsDTO::getSum)
                 .mapToInt(x -> x)
                 .sum();
     }

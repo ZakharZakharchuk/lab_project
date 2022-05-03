@@ -11,18 +11,15 @@ public class OrderDetails {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "tour_id")
     private Tour tour;
     private int amount;
-    private int price;
 
-    public OrderDetails(int id, Order order, Tour tour, int amount, int price) {
-        this.id = id;
+    public OrderDetails(Order order, Tour tour, int amount) {
         this.order = order;
         this.tour = tour;
         this.amount = amount;
-        this.price = price;
     }
 
     public OrderDetails() {
@@ -60,11 +57,4 @@ public class OrderDetails {
         this.amount = amount;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
 }

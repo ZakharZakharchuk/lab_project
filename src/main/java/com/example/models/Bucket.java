@@ -12,7 +12,7 @@ public class Bucket {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "buckets_tours",
             joinColumns = @JoinColumn(name = "bucket_id"),
             inverseJoinColumns = @JoinColumn(name = "tour_id"))
@@ -49,5 +49,14 @@ public class Bucket {
 
     public void setTour(List<Tour> tour) {
         this.tour = tour;
+    }
+
+    @Override
+    public String toString() {
+        return "Bucket{" +
+                "id=" + id +
+                ", user=" + user +
+                ", tour=" + tour +
+                '}';
     }
 }

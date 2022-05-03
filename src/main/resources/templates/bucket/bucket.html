@@ -25,7 +25,10 @@
         <td th:text="${detail.sum}"></td>
     </tr>
     </tbody>
-    <h1>All sum <b th:text="${bucket.sum}"></b></h1>
 </table>
+<h1>All sum <b th:text="${bucket.sum}"></b></h1>
+<form th:method="POST" th:action="@{/order}">
+    <button type="submit">Buy</button>
+</form>
 </body>
 </html>

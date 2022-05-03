@@ -54,6 +54,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/users").hasAuthority(Role.ADMIN.name())
                 .antMatchers("/bucket").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name(), Role.MANAGER.name())
+                .antMatchers("/order").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name(), Role.MANAGER.name())
                 .antMatchers("/tours/new").hasAuthority(Role.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()
