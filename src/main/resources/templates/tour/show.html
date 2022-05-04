@@ -22,8 +22,9 @@
         <td th:text="${tour.pricePerPerson}"></td>
         <td><a th:href="@{tours/{id}/bucket(id=${tour.id})}">Add to bucket</a> </td>
         <td>
-            <form th:method="post" th:action="@{tours/{id}/delete(id=${tour.id})}">
+            <form th:method="delete" th:action="@{tours/{id}/delete(id=${tour.id})}">
                 <button type="submit">Delete tour</button>
+            </form>
     </tr>
     </tbody>
 </table>

@@ -8,7 +8,7 @@ public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "order_id")
     private Order order;
     @ManyToOne(cascade = CascadeType.REMOVE)

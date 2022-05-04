@@ -45,7 +45,8 @@ public class TourController {
         tourService.addToUserBucket(id, principal.getName());
         return "redirect:/";
     }
-    @PostMapping("/tours/{id}/delete")
+    //TODO Зробити POST
+    @DeleteMapping("/tours/{id}/delete")
     public String deleteTour(@PathVariable int id){
         tourService.deleteTour(id);
         return "redirect:/";

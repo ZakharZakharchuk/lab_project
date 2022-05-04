@@ -57,6 +57,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public void deleteTour(int id) {
+        //TODO Знайти всі ордера з цим туром і видалити їх
         tourRepository.deleteById(id);
     }
 
