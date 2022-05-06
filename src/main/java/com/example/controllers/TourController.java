@@ -17,7 +17,7 @@ public class TourController {
         this.tourService = tourService;
     }
 
-    @GetMapping()
+    @GetMapping("/")
     public String showAllTours(Model model) {
         model.addAttribute("tours", tourService.findAll());
         return "tour/show";
@@ -45,10 +45,11 @@ public class TourController {
         tourService.addToUserBucket(id, principal.getName());
         return "redirect:/";
     }
+
     //TODO Зробити POST
-    @DeleteMapping("/tours/{id}/delete")
-    public String deleteTour(@PathVariable int id){
-        tourService.deleteTour(id);
-        return "redirect:/";
+    @GetMapping("/tours/{id}/delete")
+    public String deleteTour(@PathVariable int id, Principal principal) {
+        tourService.deleteFromUserBucket(id, principal.getName());
+        return "redirect:/bucket";
     }
 }

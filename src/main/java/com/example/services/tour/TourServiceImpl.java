@@ -4,13 +4,13 @@ import com.example.dto.tour.TourDTO;
 import com.example.models.Bucket;
 import com.example.models.Tour;
 import com.example.models.User;
+import com.example.repositories.OrderRepository;
 import com.example.repositories.TourRepository;
 import com.example.services.bucket.BucketService;
 import com.example.services.user.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class TourServiceImpl implements TourService {
@@ -56,11 +56,14 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public void deleteTour(int id) {
-        //TODO Знайти всі ордера з цим туром і видалити їх
-        tourRepository.deleteById(id);
+    public void deleteFromUserBucket(Integer tourId, String username) {
+        User user = userService.findByName(username);
+        if (user == null) {
+            throw new RuntimeException("User not found" + username);
+        }
+        Bucket bucket = user.getBucket();
+//        tourRepository.removeTourById(tourId, bucket.getId());
     }
-
 
     public TourDTO mapTour(Tour tour) {
         TourDTO tourDTO = new TourDTO();

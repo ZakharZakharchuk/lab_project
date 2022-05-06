@@ -12,5 +12,7 @@ public interface TourService {
 
     void addToUserBucket(Integer tourId, String username);
 
-    void deleteTour(int id);
+//    void deleteTour(int id);
+
+    void deleteFromUserBucket(Integer tourId, String username);
 }

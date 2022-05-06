@@ -20,16 +20,12 @@
     <tr th:each="tour : ${tours}">
         <td th:text="${tour.name}"></td>
         <td th:text="${tour.pricePerPerson}"></td>
-        <td><a th:href="@{tours/{id}/bucket(id=${tour.id})}">Add to bucket</a> </td>
-        <td>
-            <form th:method="delete" th:action="@{tours/{id}/delete(id=${tour.id})}">
-                <button type="submit">Delete tour</button>
-            </form>
+        <td><a th:href="@{tours/{id}/bucket(id=${tour.id})}">Add to bucket</a></td>
     </tr>
     </tbody>
 </table>
 <div sec:authorize="hasAnyAuthority('ADMIN','MANAGER')">
-<a th:href="@{/tours/new}">New tour</a>
+    <a th:href="@{/tours/new}">New tour</a>
 </div>
 </body>
 </html>

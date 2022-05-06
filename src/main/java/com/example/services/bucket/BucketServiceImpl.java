@@ -34,22 +34,20 @@ public class BucketServiceImpl implements BucketService {
         Bucket bucket = new Bucket();
         bucket.setUser(user);
         List<Tour> tours = getCollectionByTourIds(tourIds);
-        bucket.setTour(tours);
+        bucket.setTours(tours);
         return bucket;
     }
 
     private List<Tour> getCollectionByTourIds(List<Integer> tourIds) {
-        return tourIds.stream()
-                .map(x -> tourRepository.findById(x).orElse(null))
-                .toList();
+        return tourRepository.findByIdIn(tourIds);
     }
 
     @Override
     public void addTour(Bucket bucket, List<Integer> tourIds) {
-        List<Tour> tours = bucket.getTour();
+        List<Tour> tours = bucket.getTours();
         List<Tour> newTourList = tours == null ? new ArrayList<>() : new ArrayList<>(tours);
         newTourList.addAll(getCollectionByTourIds(tourIds));
-        bucket.setTour(newTourList);
+        bucket.setTours(newTourList);
         bucketRepository.save(bucket);
     }
 
@@ -61,7 +59,7 @@ public class BucketServiceImpl implements BucketService {
 
         BucketDTO bucketDTO = new BucketDTO();
         Map<Integer, BucketDetailsDTO> mapByTourId = new HashMap<>();
-        List<Tour> tours = user.getBucket().getTour();
+        List<Tour> tours = user.getBucket().getTours();
         for (Tour tour : tours) {
             BucketDetailsDTO detail = mapByTourId.get(tour.getId());
             if (detail == null) {
@@ -83,7 +81,7 @@ public class BucketServiceImpl implements BucketService {
         Order order = new Order();
         order.setUser(user);
 
-        Map<Tour, Long> tourWithAmount = bucket.getTour().stream()
+        Map<Tour, Long> tourWithAmount = bucket.getTours().stream()
                 .collect(Collectors.groupingBy(x -> x, Collectors.counting()));
         List<OrderDetails> orderDetails = tourWithAmount.entrySet().stream()
                 .map(x -> new OrderDetails(order, x.getKey(), x.getValue().intValue())).toList();
@@ -91,7 +89,7 @@ public class BucketServiceImpl implements BucketService {
         order.setOrderDetails(orderDetails);
         order.setSum(sum);
         orderService.save(order);
-        bucket.getTour().clear();
+        bucket.getTours().clear();
         bucketRepository.save(bucket);
         return order;
     }

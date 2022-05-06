@@ -16,12 +16,12 @@ public class Bucket {
     @JoinTable(name = "buckets_tours",
             joinColumns = @JoinColumn(name = "bucket_id"),
             inverseJoinColumns = @JoinColumn(name = "tour_id"))
-    private List<Tour> tour;
+    private List<Tour> tours;
 
     public Bucket(int id, User user, List<Tour> tour) {
         this.id = id;
         this.user = user;
-        this.tour = tour;
+        this.tours = tour;
     }
 
     public Bucket() {
@@ -43,12 +43,12 @@ public class Bucket {
         this.user = user;
     }
 
-    public List<Tour> getTour() {
-        return tour;
+    public List<Tour> getTours() {
+        return tours;
     }
 
-    public void setTour(List<Tour> tour) {
-        this.tour = tour;
+    public void setTours(List<Tour> tour) {
+        this.tours = tour;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Bucket {
         return "Bucket{" +
                 "id=" + id +
                 ", user=" + user +
-                ", tour=" + tour +
+                ", tour=" + tours +
                 '}';
     }
 }
