@@ -9,7 +9,6 @@ import com.example.repositories.TourRepository;
 import com.example.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,24 +30,18 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public Bucket createBucket(User user, List<Integer> tourIds) {
+    public Bucket createBucket(User user) {
         Bucket bucket = new Bucket();
         bucket.setUser(user);
-        List<Tour> tours = getCollectionByTourIds(tourIds);
-        bucket.setTours(tours);
         return bucket;
     }
 
-    private List<Tour> getCollectionByTourIds(List<Integer> tourIds) {
-        return tourRepository.findByIdIn(tourIds);
-    }
-
     @Override
-    public void addTour(Bucket bucket, List<Integer> tourIds) {
-        List<Tour> tours = bucket.getTours();
-        List<Tour> newTourList = tours == null ? new ArrayList<>() : new ArrayList<>(tours);
-        newTourList.addAll(getCollectionByTourIds(tourIds));
-        bucket.setTours(newTourList);
+    public void addTour(Bucket bucket, Integer tourId) {
+        Tour tour = tourRepository.findById(tourId)
+                .orElseThrow(() -> new RuntimeException("This tour no longer exists."));
+
+        bucket.getTours().add(tour);
         bucketRepository.save(bucket);
     }
 

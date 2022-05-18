@@ -11,6 +11,4 @@ public interface UserService{
     void save(User user);
 
     void save(UserDTO userDTO);
-
-    User findByName(String username);
 }
