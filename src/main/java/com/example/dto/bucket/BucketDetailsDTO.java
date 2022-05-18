@@ -9,23 +9,16 @@ public class BucketDetailsDTO {
     private int amount;
     private int sum;
 
-    public BucketDetailsDTO(Tour tour) {
-        this.name = tour.getName();
-        this.tourId = tour.getId();
-        this.price = tour.getPricePerPerson();
-        this.amount = 1;
-        this.sum = amount * this.price;
+    public BucketDetailsDTO(Tour tour, int amount) {
+        this(tour.getName(), tour.getId(), tour.getPricePerPerson(), amount);
     }
 
-    public BucketDetailsDTO(String name, int tourId, int price, int amount, int sum) {
+    private BucketDetailsDTO(String name, int tourId, int price, int amount) {
         this.name = name;
         this.tourId = tourId;
         this.price = price;
         this.amount = amount;
-        this.sum = sum;
-    }
-
-    public BucketDetailsDTO() {
+        this.sum = price * amount;
     }
 
     public String getName() {

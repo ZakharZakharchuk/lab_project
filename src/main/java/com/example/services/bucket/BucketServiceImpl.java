@@ -10,7 +10,7 @@ import com.example.services.user.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -57,19 +57,26 @@ public class BucketServiceImpl implements BucketService {
         if (user == null || user.getBucket() == null)
             return new BucketDTO();
 
-        BucketDTO bucketDTO = new BucketDTO();
-        Map<Integer, BucketDetailsDTO> mapByTourId = new HashMap<>();
         List<Tour> tours = user.getBucket().getTours();
+
+        Map<Tour, Integer> groupedTours = new LinkedHashMap<>();
         for (Tour tour : tours) {
-            BucketDetailsDTO detail = mapByTourId.get(tour.getId());
-            if (detail == null) {
-                mapByTourId.put(tour.getId(), new BucketDetailsDTO(tour));
+            if (groupedTours.containsKey(tour)) {
+                int amount = groupedTours.get(tour);
+                groupedTours.put(tour, amount + 1);
             } else {
-                detail.setAmount(detail.getAmount() + 1);
-                detail.setSum(detail.getSum() + tour.getPricePerPerson());
+                groupedTours.put(tour, 1);
             }
         }
-        bucketDTO.setDetails(new ArrayList<>(mapByTourId.values()));
+
+        List<BucketDetailsDTO> listOfDetails = new ArrayList<>();
+        for (Tour tour : groupedTours.keySet()) {
+            int amount = groupedTours.get(tour);
+            listOfDetails.add(new BucketDetailsDTO(tour, amount));
+        }
+
+        BucketDTO bucketDTO = new BucketDTO();
+        bucketDTO.setDetails(listOfDetails);
         bucketDTO.aggregate();
         return bucketDTO;
     }
