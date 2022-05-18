@@ -1,51 +1,36 @@
 package com.example.dto.bucket;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BucketDTO {
-    private int amount;
-    private int sum;
-    private List<BucketDetailsDTO> details = new ArrayList<>();
 
-    public void aggregate() {
-        this.amount = details.size();
-        this.sum = details.stream()
+    private final List<BucketDetailsDTO> details;
+
+    public BucketDTO(List<BucketDetailsDTO> details) {
+        this.details = details;
+    }
+
+    public BucketDTO() {
+        this(new ArrayList<>());
+    }
+
+    public int getAmount() {
+        return details.size();
+    }
+
+    public int getSum() {
+        // we can put this logic here because we don't need to call it many times;
+        // alternatively, we can put it in a variable, as before,
+        // calculating the value in the constructor;
+        return details.stream()
                 .map(BucketDetailsDTO::getSum)
                 .mapToInt(x -> x)
                 .sum();
     }
 
-    public BucketDTO(int amount, int sum, List<BucketDetailsDTO> details) {
-        this.amount = amount;
-        this.sum = sum;
-        this.details = details;
-    }
-
-    public BucketDTO() {
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public int getSum() {
-        return sum;
-    }
-
-    public void setSum(int sum) {
-        this.sum = sum;
-    }
-
     public List<BucketDetailsDTO> getDetails() {
-        return details;
-    }
-
-    public void setDetails(List<BucketDetailsDTO> details) {
-        this.details = details;
+        return Collections.unmodifiableList(details);
     }
 }

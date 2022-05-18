@@ -67,10 +67,7 @@ public class BucketServiceImpl implements BucketService {
                 .map(tour -> new BucketDetailsDTO(tour, groupedTours.get(tour).intValue()))
                 .collect(Collectors.toList());
 
-        BucketDTO bucketDTO = new BucketDTO();
-        bucketDTO.setDetails(listOfDetails);
-        bucketDTO.aggregate();
-        return bucketDTO;
+        return new BucketDTO(listOfDetails);
     }
 
     @Override
