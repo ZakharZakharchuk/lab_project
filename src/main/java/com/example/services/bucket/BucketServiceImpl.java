@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,21 +60,12 @@ public class BucketServiceImpl implements BucketService {
 
         List<Tour> tours = user.getBucket().getTours();
 
-        Map<Tour, Integer> groupedTours = new LinkedHashMap<>();
-        for (Tour tour : tours) {
-            if (groupedTours.containsKey(tour)) {
-                int amount = groupedTours.get(tour);
-                groupedTours.put(tour, amount + 1);
-            } else {
-                groupedTours.put(tour, 1);
-            }
-        }
+        Map<Tour, Long> groupedTours = tours.stream().collect(Collectors
+                .groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()));
 
-        List<BucketDetailsDTO> listOfDetails = new ArrayList<>();
-        for (Tour tour : groupedTours.keySet()) {
-            int amount = groupedTours.get(tour);
-            listOfDetails.add(new BucketDetailsDTO(tour, amount));
-        }
+        List<BucketDetailsDTO> listOfDetails = groupedTours.keySet().stream()
+                .map(tour -> new BucketDetailsDTO(tour, groupedTours.get(tour).intValue()))
+                .collect(Collectors.toList());
 
         BucketDTO bucketDTO = new BucketDTO();
         bucketDTO.setDetails(listOfDetails);
