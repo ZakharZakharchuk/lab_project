@@ -4,9 +4,9 @@ import com.example.dto.bucket.BucketDTO;
 import com.example.dto.bucket.BucketDetailsDTO;
 import com.example.models.*;
 import com.example.repositories.BucketRepository;
+import com.example.repositories.OrderRepository;
 import com.example.repositories.TourRepository;
-import com.example.services.order.OrderService;
-import com.example.services.user.UserService;
+import com.example.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,14 +20,14 @@ import java.util.stream.Collectors;
 public class BucketServiceImpl implements BucketService {
     private final BucketRepository bucketRepository;
     private final TourRepository tourRepository;
-    private final UserService userService;
-    private final OrderService orderService;
+    private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
 
-    public BucketServiceImpl(BucketRepository bucketRepository, TourRepository tourRepository, UserService userService, OrderService orderService) {
+    public BucketServiceImpl(BucketRepository bucketRepository, TourRepository tourRepository, UserRepository userRepository, OrderRepository orderRepository) {
         this.bucketRepository = bucketRepository;
         this.tourRepository = tourRepository;
-        this.userService = userService;
-        this.orderService = orderService;
+        this.userRepository = userRepository;
+        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public BucketDTO getBucketByUser(String name) {
-        User user = userService.findByName(name);
+        User user = userRepository.findFirstByName(name);
         if (user == null || user.getBucket() == null)
             return new BucketDTO();
 
@@ -75,7 +75,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public Order addBucketToOrder(String username) {
-        User user = userService.findByName(username);
+        User user = userRepository.findFirstByName(username);
         Bucket bucket = user.getBucket();
         Order order = new Order();
         order.setUser(user);
@@ -87,7 +87,7 @@ public class BucketServiceImpl implements BucketService {
         int sum = orderDetails.stream().mapToInt(x -> x.getTour().getPricePerPerson() * x.getAmount()).sum();
         order.setOrderDetails(orderDetails);
         order.setSum(sum);
-        orderService.save(order);
+        orderRepository.save(order);
         bucket.getTours().clear();
         bucketRepository.save(bucket);
         return order;
