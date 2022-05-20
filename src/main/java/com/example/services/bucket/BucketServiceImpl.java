@@ -46,6 +46,19 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
+    public void removeTour(Bucket bucket, Integer tourId) {
+        List<Tour> tours = bucket.getTours().stream()
+                .filter(tour -> tour.getId() == tourId)
+                .toList();
+
+        for (Tour tour : tours) {
+            bucket.getTours().remove(tour);
+        }
+
+        bucketRepository.save(bucket);
+    }
+
+    @Override
     public BucketDTO getBucketByUser(String name) {
         User user = userRepository.findFirstByName(name);
         if (user == null || user.getBucket() == null)

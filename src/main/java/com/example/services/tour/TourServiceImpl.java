@@ -4,6 +4,7 @@ import com.example.dto.tour.TourDTO;
 import com.example.models.Bucket;
 import com.example.models.Tour;
 import com.example.models.User;
+import com.example.repositories.BucketRepository;
 import com.example.repositories.TourRepository;
 import com.example.repositories.UserRepository;
 import com.example.services.bucket.BucketService;
@@ -58,8 +59,9 @@ public class TourServiceImpl implements TourService {
         if (user == null) {
             throw new RuntimeException("User not found" + username);
         }
+
         Bucket bucket = user.getBucket();
-//        tourRepository.removeTourById(tourId, bucket.getId());
+        bucketService.removeTour(bucket, tourId);
     }
 
     public TourDTO mapTour(Tour tour) {

@@ -10,6 +10,8 @@ public interface BucketService {
 
     void addTour(Bucket bucket, Integer tourId);
 
+    void removeTour(Bucket bucket, Integer tourId);
+
     BucketDTO getBucketByUser(String name);
 
     Order addBucketToOrder(String username);
