@@ -41,11 +41,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    @Override
-    public User findByName(String username) {
-        return userRepository.findFirstByName(username);
-    }
-
     public UserDTO mapDTO(User user){
         UserDTO userDTO = new UserDTO();
         String name = user.getName();

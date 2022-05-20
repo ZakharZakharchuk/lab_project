@@ -14,11 +14,9 @@ import java.security.Principal;
 @Controller
 public class BucketController {
     private final BucketService bucketService;
-    private final OrderService orderService;
 
     public BucketController(BucketService bucketService, OrderService orderService) {
         this.bucketService = bucketService;
-        this.orderService = orderService;
     }
 
     @GetMapping("/bucket")

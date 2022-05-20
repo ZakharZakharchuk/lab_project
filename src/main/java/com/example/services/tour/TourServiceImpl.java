@@ -4,10 +4,10 @@ import com.example.dto.tour.TourDTO;
 import com.example.models.Bucket;
 import com.example.models.Tour;
 import com.example.models.User;
-import com.example.repositories.OrderRepository;
+import com.example.repositories.BucketRepository;
 import com.example.repositories.TourRepository;
+import com.example.repositories.UserRepository;
 import com.example.services.bucket.BucketService;
-import com.example.services.user.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +15,12 @@ import java.util.List;
 @Service
 public class TourServiceImpl implements TourService {
     private final TourRepository tourRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final BucketService bucketService;
 
-    public TourServiceImpl(TourRepository tourRepository, UserService userService, BucketService bucketService) {
+    public TourServiceImpl(TourRepository tourRepository, UserRepository userRepository, BucketService bucketService) {
         this.tourRepository = tourRepository;
-        this.userService = userService;
+        this.userRepository = userRepository;
         this.bucketService = bucketService;
     }
 
@@ -38,31 +38,30 @@ public class TourServiceImpl implements TourService {
     @Override
     /*    @Transactional*/
     public void addToUserBucket(Integer tourId, String username) {
-        User user = userService.findByName(username);
+
+        // TODO: move this method to BucketService
+
+        User user = userRepository.findFirstByName(username);
         if (user == null) {
             throw new RuntimeException("User not found" + username);
         }
+
         Bucket bucket = user.getBucket();
-        System.out.println("Bucket " + bucket);
         if (bucket == null) {
-            //TODO прибрати List
-            Bucket newBucket = bucketService.createBucket(user, List.of(tourId));
-            bucketService.addTour(newBucket, List.of(tourId));
-            user.setBucket(newBucket);
-            userService.save(user);
-        } else {
-            bucketService.addTour(bucket, List.of(tourId));
+            bucket = bucketService.createBucket(user);
         }
+        bucketService.addTour(bucket, tourId);
     }
 
     @Override
     public void deleteFromUserBucket(Integer tourId, String username) {
-        User user = userService.findByName(username);
+        User user = userRepository.findFirstByName(username);
         if (user == null) {
             throw new RuntimeException("User not found" + username);
         }
+
         Bucket bucket = user.getBucket();
-//        tourRepository.removeTourById(tourId, bucket.getId());
+        bucketService.removeTour(bucket, tourId);
     }
 
     public TourDTO mapTour(Tour tour) {

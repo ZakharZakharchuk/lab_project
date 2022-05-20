@@ -5,12 +5,12 @@ import com.example.models.Bucket;
 import com.example.models.Order;
 import com.example.models.User;
 
-import java.util.List;
-
 public interface BucketService {
-    Bucket createBucket(User user, List<Integer> tourIds);
+    Bucket createBucket(User user);
 
-    void addTour(Bucket bucket, List<Integer> tourIds);
+    void addTour(Bucket bucket, Integer tourId);
+
+    void removeTour(Bucket bucket, Integer tourId);
 
     BucketDTO getBucketByUser(String name);
 
